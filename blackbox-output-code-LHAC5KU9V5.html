@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal writing portfolio of Faaiz Choudhury. Essays, stories, and commentary on Law, Society, and Barak Valley.">
+    <title>Faaiz Choudhury Writes</title>
+    
+    <!-- Google Fonts: Playfair Display (Serif) for Headings, Inter (Sans) for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #121212;       /* Charcoal/Black */
+            --surface-color: #1E1E1E;  /* Slightly lighter for cards */
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0; /* Muted Grey */
+            --accent-color: #4169E1;   /* Royal Blue */
+            --accent-hover: #274EB5;
+            --border-color: #333333;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            display: none; /* Hidden by default, JS toggles this */
+            padding: 80px 0;
+            min-height: calc(100vh - var(--header-height));
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-color);
+        }
+
+        /* Mobile Nav Toggle (Hidden on Desktop) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--text-secondary);
+            color: var(--text-primary);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- HOME PAGE --- */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtext {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- ARTICLES PAGE --- */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .article-card {
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .article-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .article-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .article-excerpt {
+            color: #d0d0d0;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .read-more {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- AUTHOR PAGE --- */
+        .author-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .author-name {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .author-bio {
+            max-width: 700px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* --- WRITE FOR YOU (SERVICES) --- */
+        .services-list {
+            margin: 40px 0;
+        }
+
+        .service-item {
+            background: var(--surface-color);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .service-item h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 10px;
+        }
+
+        .payment-info {
+            background: rgba(65, 105, 225, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* --- CONTACT PAGE --- */
+        .contact-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-secondary);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 4px;
+            font-family: var(--font-body);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            
+            nav ul {
+                display: none; /* Simple hide for this demo, ideally use a hamburger menu */
+                flex-direction: column;
+                position: absolute;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-color);
+                padding: 20px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            nav ul.show { display: flex; }
+            
+            .mobile-menu-btn { display: block; }
+            
+            .btn-outline { margin-left: 0; margin-top: 15px; display: block; width: 100%; text-align: center;}
+            .btn-primary { display: block; width: 100%; text-align: center;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Faaiz Choudhury Writes</div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <nav>
+                <ul id="nav-links">
+                    <li><a onclick="showSection('home')" class="active">Home</a></li>
+                    <li><a onclick="showSection('articles')">Articles</a></li>
+                    <li><a onclick="showSection('author')">About Author</a></li>
+                    <li><a onclick="showSection('services')">Write for You</a></li>
+                    <li><a onclick="showSection('contact')">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="container">
+
+        <!-- HOME SECTION -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Words, Law, Society<br>& the Barak Valley</h1>
+                <p class="subtext">Essays, stories & commentary by Muazzaz Ahmed Choudhury (Faaiz)</p>
+                <div class="cta-group
